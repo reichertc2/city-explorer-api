@@ -17,14 +17,17 @@ app.use(cors());
 //PORT variable is assigned in .env file
 const PORT = process.env.PORT || 3001;
 
-app.listen(PORT, () => {
-  console.log('Awaiting Instructions on Port: ', PORT);
-});
-
 // Setting the root route
 app.get('/', (request, response) => {
   response.send('Running Server Program');
 });
+app.get('/weather', weatherData);
+
+app.get('*', (reqeust, response) => {
+  response.status(404).send('Page not found');
+});
+
+
 
 // End Boiler Plate Items
 
@@ -32,17 +35,40 @@ const weather = require('./data/weather.json');
 
 // console.log(`This is my weather.json ${weather}`);
 
-function weatherData (request,response){
-  // let data = request.query;
-  let data = weather.data;
-  let lat = request.query.lat;
+function weatherData(request, response) {
+
+  // ---- The following 1 line and subsequent 3 are doing the same things. ----
+  let { lat, lon, searchQuery } = request.query;
+  // let lat = request.query.lat;
+  // let lon = request.query.lon;
+  // let searchQuery = request.query.searchQuery;
+  // ----- end similiar items--------------------------------------------------
   console.log(`This is the lat: ${lat}`);
-  // console.log('req query', request.query);
-  const found = weather.find(({lat}) => lat === request.query.lat);
+  console.log(`This is the lat: ${lon}`);
+  console.log('req query', request.query);
+  let found = weather.find((city) => city.city_name.toLowerCase() === searchQuery.toLowerCase());
   console.log(found);
-  response.status(200).send(weather);
+  try {
+    let foundArray = found.data.map(day => {
+      return new Forecast (day);
+    });
+    console.log(foundArray);
+    response.status(200).send(foundArray);
+  }
+  catch (error) {
+    response.status(404).send('Weather not found');
+  }
 }
 
-app.get('/weather',weatherData);
 
 
+class Forecast {
+  constructor(day){
+    this.date = day.valid_date;
+    this.description = `Low of ${day.low_temp}, high of ${day.max_temp} with ${day.weather.description}`;
+  }
+}
+
+app.listen(PORT, () => {
+  console.log('Awaiting Instructions on Port: ', PORT);
+});
