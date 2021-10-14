@@ -50,7 +50,7 @@ function weatherData(request, response) {
   console.log(found);
   try {
     let foundArray = found.data.map(day => {
-      return new Forecast (day);
+      return new Forecast(day);
     });
     console.log(foundArray);
     response.status(200).send(foundArray);
@@ -60,10 +60,19 @@ function weatherData(request, response) {
   }
 }
 
+function handleError(request, response) {
+  try {
 
+    console.log(response);
+    response.status(500).send(response);
+  }
+  catch (error) {
+    response.status(404).send('Request not found');
+  }
+}
 
 class Forecast {
-  constructor(day){
+  constructor(day) {
     this.date = day.valid_date;
     this.description = `Low of ${day.low_temp}, high of ${day.max_temp} with ${day.weather.description}`;
   }
