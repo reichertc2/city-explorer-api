@@ -23,42 +23,61 @@ app.get('/', (request, response) => {
 });
 app.get('/weather', weatherData);
 
+app.get('/movies',movieData);
+
 app.get('*', (reqeust, response) => {
   response.status(404).send('Page not found');
 });
 
-
-
+const axios = require('axios');
 // End Boiler Plate Items
 
-const weather = require('./data/weather.json');
+
 
 // console.log(`This is my weather.json ${weather}`);
 
-function weatherData(request, response) {
-
+async function weatherData(request, response) {
+  let WEATHER_API_KEY = process.env.WEATHER_API_KEY;
   // ---- The following 1 line and subsequent 3 are doing the same things. ----
   let { lat, lon, searchQuery } = request.query;
   // let lat = request.query.lat;
   // let lon = request.query.lon;
   // let searchQuery = request.query.searchQuery;
   // ----- end similiar items--------------------------------------------------
-  console.log(`This is the lat: ${lat}`);
-  console.log(`This is the lat: ${lon}`);
+  let WxApiURL = `https://api.weatherbit.io/v2.0/forecast/daily?city=${searchQuery}&key=${WEATHER_API_KEY}&days=4`;
+  let WxApi = await axios.get(WxApiURL);
+  const weather = WxApi.data.data;
+  // console.log('weather api', WxApi.data.data);
+  // console.log(`This is the lat: ${lat}`);
+  // console.log(`This is the lat: ${lon}`);
   console.log('req query', request.query);
-  let found = weather.find((city) => city.city_name.toLowerCase() === searchQuery.toLowerCase());
-  console.log(found);
+  // let found = weather.find((city) => city.city_name.toLowerCase() === searchQuery.toLowerCase());
+  // console.log('this is found', found);
   try {
-    let foundArray = found.data.map(day => {
+    let foundArray = weather.map(day => {
       return new Forecast(day);
     });
-    console.log(foundArray);
+    // console.log(foundArray);
     response.status(200).send(foundArray);
   }
   catch (error) {
     response.status(404).send('Weather not found');
   }
 }
+
+async function movieData(request, response) {
+  let MOVIE_API_KEY = process.env.MOVIE_API_KEY;
+  let { searchQuery } = request.query;
+  console.log('req query', request.query);
+
+  let movieApiURL = `https://api.themoviedb.org/3/search/movie?api_key=${MOVIE_API_KEY}&query=${searchQuery}`;
+  console.log(movieApiURL);
+  let movieApi = await axios.get(movieApiURL);
+  const movies = movieApi.data;
+  console.log(movies);
+
+}
+
 
 function handleError(request, response) {
   try {
@@ -73,7 +92,7 @@ function handleError(request, response) {
 
 class Forecast {
   constructor(day) {
-    this.date = day.valid_date;
+    this.date = day.datetime;
     this.description = `Low of ${day.low_temp}, high of ${day.max_temp} with ${day.weather.description}`;
   }
 }
