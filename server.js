@@ -23,7 +23,7 @@ app.get('/', (request, response) => {
 });
 app.get('/weather', weatherData);
 
-app.get('/movies',movieData);
+app.get('/movies', movieData);
 
 app.get('*', (reqeust, response) => {
   response.status(404).send('Page not found');
@@ -50,7 +50,7 @@ async function weatherData(request, response) {
   // console.log('weather api', WxApi.data.data);
   // console.log(`This is the lat: ${lat}`);
   // console.log(`This is the lat: ${lon}`);
-  console.log('req query', request.query);
+  // console.log('req query', request.query);
   // let found = weather.find((city) => city.city_name.toLowerCase() === searchQuery.toLowerCase());
   // console.log('this is found', found);
   try {
@@ -68,14 +68,22 @@ async function weatherData(request, response) {
 async function movieData(request, response) {
   let MOVIE_API_KEY = process.env.MOVIE_API_KEY;
   let { searchQuery } = request.query;
-  console.log('req query', request.query);
-
-  let movieApiURL = `https://api.themoviedb.org/3/search/movie?api_key=${MOVIE_API_KEY}&query=${searchQuery}`;
-  console.log(movieApiURL);
-  let movieApi = await axios.get(movieApiURL);
-  const movies = movieApi.data;
-  console.log(movies);
-
+  // console.log('req query', request.query);
+  try {
+    let movieApiURL = `https://api.themoviedb.org/3/search/movie?api_key=${MOVIE_API_KEY}&query=${searchQuery}`;
+    // console.log(movieApiURL);
+    let movieApi = await axios.get(movieApiURL);
+    const movies = movieApi.data;
+    // console.log(movies);
+    let movieArray = movies.results.map(movies =>{
+      return new Movie(movies);
+    });
+    // console.log('this is my movieArray',movieArray);
+    response.status(200).send(movieArray);
+  }
+  catch (error) {
+    response.status(404).send('Movies not found');
+  }
 }
 
 
@@ -92,8 +100,21 @@ function handleError(request, response) {
 
 class Forecast {
   constructor(day) {
+    this.key = day.datetime;
     this.date = day.datetime;
     this.description = `Low of ${day.low_temp}, high of ${day.max_temp} with ${day.weather.description}`;
+  }
+}
+
+class Movie {
+  constructor(movieData){
+    this.title = movieData.title;
+    this.overview = movieData.overview;
+    this.average_votes = movieData.vote_count;
+    this.imageURL = `https://image.tmdb.org/t/p/w500/${movieData.poster_path}`;
+    this.popularity = movieData.popularity;
+    this.released_on = movieData.released_date;
+    this.key = movieData.title;
   }
 }
 
