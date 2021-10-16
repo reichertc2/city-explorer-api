@@ -15,8 +15,8 @@ app.use(cors());
 
 //PORT assignment
 //PORT variable is assigned in .env file
-const webPORT = 'https://fierce-badlands-59125.herokuapp.com';
-const PORT = process.env.PORT || 3001 || webPORT;
+// const webPORT = 'https://fierce-badlands-59125.herokuapp.com';
+const PORT = process.env.PORT || 3001;
 
 // Setting the root route
 app.get('/', (request, response) => {
