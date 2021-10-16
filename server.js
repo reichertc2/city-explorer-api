@@ -38,23 +38,25 @@ const axios = require('axios');
 // console.log(`This is my weather.json ${weather}`);
 
 async function weatherData(request, response) {
-  let WEATHER_API_KEY = process.env.WEATHER_API_KEY;
-  // ---- The following 1 line and subsequent 3 are doing the same things. ----
-  let { lat, lon, searchQuery } = request.query;
-  // let lat = request.query.lat;
-  // let lon = request.query.lon;
-  // let searchQuery = request.query.searchQuery;
-  // ----- end similiar items--------------------------------------------------
-  let WxApiURL = `https://api.weatherbit.io/v2.0/forecast/daily?city=${searchQuery}&key=${WEATHER_API_KEY}&days=4`;
-  let WxApi = await axios.get(WxApiURL);
-  const weather = WxApi.data.data;
-  // console.log('weather api', WxApi.data.data);
-  // console.log(`This is the lat: ${lat}`);
-  // console.log(`This is the lat: ${lon}`);
-  // console.log('req query', request.query);
-  // let found = weather.find((city) => city.city_name.toLowerCase() === searchQuery.toLowerCase());
-  // console.log('this is found', found);
   try {
+    let WEATHER_API_KEY = process.env.WEATHER_API_KEY;
+    // ---- The following 1 line and subsequent 3 are doing the same things. ----
+    let { lat, lon, searchQuery } = request.query;
+    // let lat = request.query.lat;
+    // let lon = request.query.lon;
+    // let searchQuery = request.query.searchQuery;
+    // ----- end similiar items--------------------------------------------------
+
+    // console.log('weather api', WxApi.data.data);
+    // console.log(`This is the lat: ${lat}`);
+    // console.log(`This is the lat: ${lon}`);
+    // console.log('req query', request.query);
+    // let found = weather.find((city) => city.city_name.toLowerCase() === searchQuery.toLowerCase());
+    // console.log('this is found', found);
+
+    let WxApiURL = `https://api.weatherbit.io/v2.0/forecast/daily?city=${searchQuery}&key=${WEATHER_API_KEY}&days=4`;
+    let WxApi = await axios.get(WxApiURL);
+    const weather = WxApi.data.data;
     let foundArray = weather.map(day => {
       return new Forecast(day);
     });
@@ -76,7 +78,7 @@ async function movieData(request, response) {
     let movieApi = await axios.get(movieApiURL);
     const movies = movieApi.data;
     // console.log(movies);
-    let movieArray = movies.results.map(movies =>{
+    let movieArray = movies.results.map(movies => {
       return new Movie(movies);
     });
     // console.log('this is my movieArray',movieArray);
@@ -108,7 +110,7 @@ class Forecast {
 }
 
 class Movie {
-  constructor(movieData){
+  constructor(movieData) {
     this.title = movieData.title;
     this.overview = movieData.overview;
     this.average_votes = movieData.vote_count;
