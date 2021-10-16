@@ -41,7 +41,7 @@ async function weatherData(request, response) {
   try {
     let WEATHER_API_KEY = process.env.WEATHER_API_KEY;
     // ---- The following 1 line and subsequent 3 are doing the same things. ----
-    let { lat, lon, searchQuery } = request.query;
+    let { searchQuery } = request.query;
     // let lat = request.query.lat;
     // let lon = request.query.lon;
     // let searchQuery = request.query.searchQuery;
