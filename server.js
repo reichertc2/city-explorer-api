@@ -26,6 +26,7 @@ app.get('/', (request, response) => {
 // module requires
 let weatherData = require('./modules/weather.js');
 let movieData = require('./modules/movies.js');
+let cache = require('./modules/cache.js');
 
 
 // setting other routes
@@ -37,7 +38,7 @@ app.get('*', (reqeust, response) => {
   response.status(404).send('Page not found');
 });
 
-const axios = require('axios');
+
 // End Boiler Plate Items
 
 function handleError(request, response) {
