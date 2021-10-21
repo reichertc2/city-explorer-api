@@ -1,53 +1,58 @@
 # City Explorer API
 
 **Author**: Chris Reichert
-**Version**: 1.0.0 (increment the patch/fix version number if you make more commits past your first submission)
+**Version**: 
+1.0.0 Inital Build-out
+1.1.0 Refactor for modularization
+1.2.0 Add cache to server
 
 ## Overview
 
-This is the base for the extension of back-end application to respond with information like an  APIs
+This is the back-end for City Explorer. It include error handling, API calls, and data shaping.
 
 ## Links and Resources
+* ([GitHub Site:](https://github.com/reichertc2/city-explorer-api))
+* ([Heroku Site:](https://fierce-badlands-59125.herokuapp.com/))
+* ([Netlfy Site:](https://reichertc2-city-explorer.netlify.app/))
+* ([Trello Site:](https://trello.com/b/6IbYNwWz/city-explorer))
 
+## Getting Started
+
+!([WRRC Layout](./src/img/WRRC-Image.png))
+
+## Architecture
+This project includes the following technologies:
 * Axios
 * Node.js
 * Nodemon
 * Express
-* ([GitHub Site:](https://github.com/reichertc2/city-explorer-api))
-* ([Heroku Site:](https://fierce-badlands-59125.herokuapp.com/))
-<!-- * ([Netlfy Site:](https://reichertc2-city-explorer.netlify.app/)) -->
-* ([Trello Site:](https://trello.com/b/6IbYNwWz/city-explorer))
-* ([Color Palatte  Site:](https://coolors.co/e2d4b7-9c9583-a1a499-b0bbbf-cadbc8))
-
-## Getting Started
-
-<!-- !([WRRC Layout](./src/img/WRRC-Image.png)) -->
-
-## Architecture
-<!-- Provide a detailed description of the application design. What technologies (languages, libraries, etc) you're using, and any other relevant design information. -->
 
 ## Change Log
-<!-- Use this area to document the iterative changes made to your application as each feature is successfully implemented. Use time stamps. Here's an example:
-
-01-01-2001 4:59pm - Application now has a fully-functional express server, with a GET route for the location resource. -->
+See feature adds below
 
 ## Credit and Collaborations
-<!-- Give credit (and a link) to other people or resources that helped you build this application. -->
+* Joe Pennecok helped deploy server to Heroku and helped out in weather function and relocating the try catch
+* Big thanks to JP Jones for helping me deploy the server to Heroku, by pointing out the API keys were not listed in the server.
 
 ## Feature Time Estimates
 
-1. Name of feature: Set up your React repository & API keys.
+1. Name of feature: Set up your Server.
 * Estimate of time needed to complete: 45 minutes
 * Start time: 2230
 * Finish time: 2335
 * Actual time needed to complete: 1 hour 5 minutes
-1. Name of feature: Locations: As a user of City Explorer, I want to enter the name of a location so that I can see the exact latitude and longitude of that location.
+1. Name of feature: Convert weather from JSON to API call
 * Estimate of time needed to complete: 1 hour
-* Start time: 2040
-* Finish time: 2200
-* Actual time needed to complete: 1 hour 20 minutes
-1. Name of feature: Map: As a user, I want to see a map of the city so that I can see the layout of the area I want to explore.
+* Start time: 1820
+* Finish time: 2230
+* Actual time needed to complete:  3 hours
+1. Name of feature: Add movies API to server
 * Estimate of time needed to complete: 1 hour
 * Start time: 2220
 * Finish time: 2230
-* Actual time needed to complete:  30 minutes
+* Actual time needed to complete:  10 minutes
+1. Name of feature: Publish and connect to server backend
+* Estimate of time needed to complete: 1 hour
+* Start time: 2130
+* Finish time: 2230
+* Actual time needed to complete:  1 hour
